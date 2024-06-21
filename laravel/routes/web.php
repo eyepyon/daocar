@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\UserLocationController;
+//use App\Http\Controllers\UserLocationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +25,7 @@ Route::get('/privacy', function () {
     return view('privacy');
 });
 
-Route::get('user_location', [UserLocationController::class, 'index'])->name('user_location.index');
+//Route::get('user_location', [UserLocationController::class, 'index'])->name('user_location.index');
 
 Auth::routes();
 
