@@ -182,15 +182,13 @@
         <div class="inner">
             <h3 class='wow fadeInUp data-wow-delay=".2s"'>さあ、<br class="is-sp">あなたもDAOCAR LLCに<br class="is-sp">参加しましょう！</h3>
 
-            <p class='btn wow bounceIn data-wow-delay="0.5s"'>
                 @if (Route::has('login'))
                     @auth
-                        <a href="{{ url('/home') }}"><span>DAOCAR LLCに<br class="is-sp">ログイン</span><</a>
+                    <p class='btn wow bounceIn data-wow-delay="0.5s"'><a href="{{ url('/home') }}"><span>DAOCAR LLCに<br class="is-sp">ログイン</span><</a></p>
                     @else
-                        <a href="{{ route('login.line.redirect') }}"><span>DAOCAR LLCへの<br class="is-sp">参加はこちらから</span></a>
+                    <p class='btn wow bounceIn data-wow-delay="0.5s"'><a href="{{ route('login.line.redirect') }}"><span>DAOCAR LLCへの<br class="is-sp">参加はこちらから</span></a></p>
                     @endauth
                 @endif
-            </p>
             <!--
                             <div class='bnr_area wow fadeInUp data-wow-delay=".8s"'>
                                 <p>バナーエリア</p>
