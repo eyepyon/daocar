@@ -340,7 +340,14 @@ class LineWebhookController extends Controller
             // メッセージタイプごとに処理を分ける　位置情報
             if ($event instanceof LocationMessage) {
                 $message = $this->__getGpsNear($bot, $event, $event->getLatitude(), $event->getLongitude());
-                return $bot->replyText($event->getReplyToken(), $message);
+                $bot->replyText($event->getReplyToken(), $message);
+                $yes_button = new PostbackTemplateActionBuilder('依頼する', 'GO');
+                $no_button = new PostbackTemplateActionBuilder('依頼しない', 'NONE');
+                $actions = [$yes_button, $no_button];
+                $button = new ConfirmTemplateBuilder('配車依頼しますか？', $actions);
+                $button_message = new TemplateMessageBuilder('配車依頼', $button);
+                return $bot->replyMessage($event->getReplyToken(), $button_message);
+//                return $bot->replyText($event->getReplyToken(), $message);
             }
 
             // メッセージタイプごとに処理を分ける　スタンプ
