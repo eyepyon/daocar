@@ -628,7 +628,7 @@ class LineWebhookController extends Controller
         if (strtoupper(trim($command)) == strtoupper("systemcommand")) {
             $text .= "設定" . "\n";
             $text .= "" . "\n";
-            $text .= "Channel チャンネル設定" . "\n";
+//          $text .= "Channel チャンネル設定" . "\n";
             $text .= "Language 言語設定" . "\n";
             $text .= "Notification 通知";
         }
@@ -645,7 +645,7 @@ class LineWebhookController extends Controller
 
             // クイックリプライボタン
             $quick_reply_buttons = [
-                "チャンネル" => "Channel",
+//              "チャンネル" => "Channel",
                 "言語" => "Language",
                 "通知" => "Notification",
             ];
@@ -706,32 +706,32 @@ class LineWebhookController extends Controller
             return $button_message;
         }
 
-        if (strtoupper(trim($command)) == strtoupper("Channel")) {
-            $text .= "Chを4桁の数字で入力ください(0000はNG)" . "\n";
-            $text .= "現在のCh：";
-            if (isset($u->channel) && (int)sprintf("%d", $u->channel) > 0 && (int)sprintf("%d", $u->channel) < 10000) {
-                $text .= sprintf("%04d Ch", $u->channel);
-            } else {
-                $text .= "Ch未セット";
-            }
-            //
-        }
-
-        if (strlen(trim($command)) == 4 && preg_match("/^[0-9]+$/", trim($command))) {
-            $text .= "Chを変更します" . "\n";
-            $text .= "現在のCh：";
-            $new_num = mb_convert_kana(trim($command), "n");
-            if (isset($u->channel) && $u->channel > 0) {
-                $text .= sprintf("%d Ch". "\n", $u->channel);
-            } else {
-                $text .= "Ch未セット". "\n";
-            }
-            $text .= "変更後のCh：";
-            $text .= sprintf("%04d Ch", $new_num);
-            //
-            $u->channel = $new_num;
-            $u->save();
-        }
+//        if (strtoupper(trim($command)) == strtoupper("Channel")) {
+//            $text .= "Chを4桁の数字で入力ください(0000はNG)" . "\n";
+//            $text .= "現在のCh：";
+//            if (isset($u->channel) && (int)sprintf("%d", $u->channel) > 0 && (int)sprintf("%d", $u->channel) < 10000) {
+//                $text .= sprintf("%04d Ch", $u->channel);
+//            } else {
+//                $text .= "Ch未セット";
+//            }
+//            //
+//        }
+//
+//        if (strlen(trim($command)) == 4 && preg_match("/^[0-9]+$/", trim($command))) {
+//            $text .= "Chを変更します" . "\n";
+//            $text .= "現在のCh：";
+//            $new_num = mb_convert_kana(trim($command), "n");
+//            if (isset($u->channel) && $u->channel > 0) {
+//                $text .= sprintf("%d Ch". "\n", $u->channel);
+//            } else {
+//                $text .= "Ch未セット". "\n";
+//            }
+//            $text .= "変更後のCh：";
+//            $text .= sprintf("%04d Ch", $new_num);
+//            //
+//            $u->channel = $new_num;
+//            $u->save();
+//        }
 
         if (strtoupper(trim($command)) == strtoupper("notification")) {
             $text .= "通知設定" . "\n";
@@ -867,95 +867,6 @@ class LineWebhookController extends Controller
         return $response;
     }
 
-//    /**
-//     * @param string $img PATH
-//     * @return void
-//     */
-//    public function face_checker($img = "")
-//    {
-//        $key_json = "/var/www/keys/-59fb60360562.json";
-//        $client = new ImageAnnotatorClient([
-//            'credentials' => json_decode(file_get_contents($key_json), true)
-//        ]);
-//
-//        // Annotate an image, detecting faces.
-//        $annotation = $client->annotateImage(
-//            fopen($img, 'r'),
-//            [Type::FACE_DETECTION]
-//        );
-//        // 画像ファイルを読み込み
-//        $outputImage = imagecreatefromjpeg($img);
-//
-//        $faces = $annotation->getFaceAnnotations();
-//
-//        // 複数人大丈夫だが現状は最後の人を使う
-//        foreach ($faces as $face) {
-//
-//            // 全体画像
-//            $vertices = $face->getBoundingPoly()->getVertices();
-//            if ($vertices) {
-//                $x1 = $vertices[0]->getX();
-//                $y1 = $vertices[0]->getY();
-//                $x2 = $vertices[2]->getX();
-//                $y2 = $vertices[2]->getY();
-////              imagerectangle($outputImage, $x1, $y1, $x2, $y2, 0x00ff00);
-//            }
-//
-//            // 顔アップ画像
-//            $vertices = $face->getFdBoundingPoly()->getVertices();
-//            if ($vertices) {
-////                $x1 = $vertices[0]->getX();
-//                  $yh = $vertices[0]->getY();
-////                $x2 = $vertices[2]->getX();
-////                $y2 = $vertices[2]->getY();
-////              imagerectangle($outputImage, $x1, $y1, $x2, $y2, 0x00ff00);
-//            }
-//        }
-//
-//        // 切り抜いた画像の貼付け先リソース(正方形)を確保
-//        $rect = 512;
-//        $dst_image = imagecreatetruecolor($rect, $rect);
-//
-//        if (($x2 - $x1) > ($y2 - $y1)) {
-//            $size = $x2 - $x1;
-//            $sideX = 0;
-//            $sideY = ceil(($size - ($y2 - $y1)) / 2);
-//        } else {
-//            $size = $y2 - $y1;
-//            $sideX = ceil(($size - ($x2 - $x1)) / 2);
-//            $sideY = 0;
-//        }
-//
-//        $headY = ceil(($size - ($yh-$y1) ) * ($rect / $size));
-//
-//        // 切り抜き
-//        imagecopyresampled($dst_image, $outputImage, 0, 0, $x1 - $sideX, $y1 - $sideY, $rect, $rect, $size, $size);
-////      imagecopyresampled($dst_image, $outputImage, 0, $headY, $x1 - $sideX, $yh - $sideY, $rect, $rect, $size, $size);
-//
-//        $ext = substr(basename($img), strrpos(basename($img), '.'));
-//        $dsimg = str_replace($ext, "_i.png",$img);
-//        $ds3img = str_replace($ext, ".png",$img);
-//        Log::debug(__LINE__ . 'PNG image:'.$dsimg );
-//
-//        // 加工後画像の保存
-//        imagepng($dst_image, $dsimg);
-//        imagedestroy($dst_image);
-//        imagedestroy($outputImage);
-//
-//        $this->removebg($dsimg, $ds3img);
-//        //
-//        $command = 'change another matching hairstyle.';
-////        $command = 'Remove the background and hair from the image.';
-//
-//        if ($command != null) {
-//            $response = $this->generateResponse($command, $ds3img);
-//            Log::debug(__LINE__ . ' image:', (array)$response);
-////          print_r($response);
-//            return $response;
-//        }
-//        return false;
-//    }
-
     /**
      * AI画像変換
      * @param $command
@@ -1009,149 +920,6 @@ class LineWebhookController extends Controller
         return;
     }
 
-//    public function google_checker()
-//    {
-//
-//        $key_json = "/var/www/keys/-59fb60360562.json";
-//
-//        $client = new ImageAnnotatorClient([
-//            'credentials' => json_decode(file_get_contents($key_json), true)
-//        ]);
-//
-//        $img = "/var/www/tunagirl/storage/app/public/base/64dfc320907f0.jpg";
-//        // Annotate an image, detecting faces.
-//        $annotation = $client->annotateImage(
-//            fopen($img, 'r'),
-//            [Type::FACE_DETECTION]
-//        );
-//
-//        $faces = $annotation->getFaceAnnotations();
-////        print_r($faces);
-//        // Determine if the detected faces have headwear.
-////        foreach ($annotation->getFaceAnnotations() as $faceAnnotation) {
-////            $likelihood = Likelihood::name($faceAnnotation->getHeadwearLikelihood());
-////            echo "Likelihood of headwear: $likelihood" . PHP_EOL;
-////
-////        }
-//
-//        // 画像ファイルを読み込み
-//        $outputImage = imagecreatefromjpeg($img);
-//
-//        foreach ($faces as $face) {
-//            $vertices = $face->getBoundingPoly()->getVertices();
-//            if ($vertices) {
-//                $x1 = $vertices[0]->getX();
-//                $y1 = $vertices[0]->getY();
-//                $x2 = $vertices[2]->getX();
-//                $y2 = $vertices[2]->getY();
-//                imagerectangle($outputImage, $x1, $y1, $x2, $y2, 0x00ff00);
-//
-//                //              print "x1:".$x1." y1:".$y1." x2:".$x2." y2:".$y2."\n" ;
-//            }
-//
-////            $vertices = $face->getFdBoundingPoly()->getVertices();
-////            if ($vertices) {
-////                $x1 = $vertices[0]->getX();
-////                $y1 = $vertices[0]->getY();
-////                $x2 = $vertices[2]->getX();
-////                $y2 = $vertices[2]->getY();
-////                imagerectangle($outputImage, $x1, $y1, $x2, $y2, 0x00ff00);
-////
-//////                print "FB:x1:".$x1." y1:".$y1." x2:".$x2." y2:".$y2."\n" ;
-////            }
-//
-//            // 切り抜いた画像の貼付け先リソース(正方形)を確保
-//            $rect = 512;
-//
-//            // 真ん中が透過色のマスク画像を用意
-//            $mask = imagecreatetruecolor($rect, $rect);
-//            // 背景色に緑(0, 255, 0)を指定して塗りつぶし(色は任意)
-//            $green = imagecolorallocate($mask, 0, 255, 0);
-//            imagefill($mask, 0, 0, $green);
-//            // マスクの透過色を指定(255, 0, 255)
-//            $mask_transparent = imagecolorallocate($mask, 255, 0, 255);
-//            imagecolortransparent($mask, $mask_transparent);
-//            // 中央の円を透過色で塗りつぶし
-//            imagefilledellipse($mask, $rect / 2, $rect / 2, $rect, $rect, $mask_transparent);
-////
-////
-//
-//
-//            $dst_image = imagecreatetruecolor($rect, $rect);
-//
-//            // 画像の切り抜き実行
-////            imagecopyresampled($dst_image, $outputImage,0, 0, $x1, $y1, $rect, $rect, $x2-$x1, $y2-$y1);
-//
-//            if (($x2 - $x1) > ($y2 - $y1)) {
-//                $size = $x2 - $x1;
-//                $sideX = 0;
-////              $sideY = ceil(($size - ($y2-$y1) ) * ($rect / $size) / 2);
-//                $sideY = ceil(($size - ($y2 - $y1)) / 2);
-//            } else {
-//                $size = $y2 - $y1;
-//                $sideX = ceil(($size - ($x2 - $x1)) / 2);
-//                $sideY = 0;
-//            }
-//
-//            imagecopyresampled($dst_image, $outputImage, 0, 0, $x1 - $sideX, $y1 - $sideY, $rect, $rect, $size, $size);
-//
-////            $vertices = $face->getLandmarks();
-////            if ($vertices) {
-////                $x1 = $vertices[0]->getX();
-////                $y1 = $vertices[0]->getY();
-////                $x2 = $vertices[2]->getX();
-////                $y2 = $vertices[2]->getY();
-////                imagerectangle($outputImage, $x1, $y1, $x2, $y2, 0x00ff00);
-//
-////                print_r ($vertices) ;
-////            }
-//
-//        }
-//
-//        // 元画像とマスク画像を重ね合わせ
-//        imagecopymerge($dst_image, $mask, 0, 0, 0, 0, $rect, $rect, 100);
-//        // 余分な背景色の緑(0, 255, 0)を透過色に指定
-//        $src_transparent = imagecolorallocate($dst_image, 0, 255, 0);
-//        imagecolortransparent($dst_image, $src_transparent);
-//
-//        imagecolorallocatealpha($mask, 0, 255, 0, 50);
-//        imagealphablending($mask, true);
-//        imagesavealpha($mask, true);
-//
-//        $maskimg = "/storage/app/public/base/mask.png";
-//        $dsimg = "/storage/app/public/base/ds.png";
-//        $ds3img = "/storage/app/public/base/ds3.png";
-//        // 出力してメモリから解放します
-////      header('Content-Type: image/jpeg');
-////        header('Content-Type: image/png');
-//        imagepng($mask, $maskimg);
-//        imagepng($dst_image, $dsimg);
-////        imagepng($dst_image);
-////      imagejpeg($outputImage);
-////        imagejpeg($dst_image, $dsimg);
-//        imagedestroy($mask);
-//        imagedestroy($dst_image);
-//        imagedestroy($outputImage);
-//
-////        $this->removeBackground($dsimg);
-////        $this->removebg($dsimg, $ds3img);
-//
-//        $command = 'change another matching ';
-//
-//        if ($command != null) {
-//            $response = $this->generateResponse($command, $dsimg, $maskimg);
-//
-//            Log::debug(__LINE__ . ' image:', (array)$response);
-////            print_r($response);
-//
-//            foreach ($response as $res){
-//                    print "\nURL" . $res["url"];
-//            }
-//
-//        }
-//
-//    }
-
 
     public function imagein(Request $request)
     {
@@ -1181,14 +949,8 @@ class LineWebhookController extends Controller
      */
     public function removeBackground($image_path = "")
     {
-//        $image_path = $request->file('image')->path();
 
         $image_base64 = base64_encode(file_get_contents($image_path));
-
-//        $api_endpoint = 'https://api.dalee.io/v1/removebg';
-//        $response = OpenAI::post($api_endpoint, [
-//            'image' => $image_base64,
-//        ]);
 
         $response = OpenAI::completions()->create([
             'model' => 'removebg',
@@ -1205,6 +967,11 @@ class LineWebhookController extends Controller
         }
     }
 
+    /**
+     * @param $srcFile
+     * @param $dstFile
+     * @return true
+     */
     public function removebg($srcFile = "", $dstFile = "")
     {
 
