@@ -266,6 +266,10 @@ class LineWebhookController extends Controller
                     $txt = "語言設定為台灣中文";
                     $u->language = 10;
                     $u->save();
+                } elseif ($postdata == "GO") {
+                    $txt = "配車依頼を受けました。\n到着しましたら通知させていただきます。";
+                } elseif ($postdata == "NONE") {
+                    $txt = "承知しました。またの機会をお待ちしております。";
                 }
                 if ($txt != "") {
                     return $bot->replyText($event->getReplyToken(), $txt);
