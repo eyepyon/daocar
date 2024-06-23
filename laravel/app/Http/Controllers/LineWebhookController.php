@@ -339,8 +339,8 @@ class LineWebhookController extends Controller
 
             // メッセージタイプごとに処理を分ける　位置情報
             if ($event instanceof LocationMessage) {
-                return $bot->replyText($event->getReplyToken(), '近くに施設はないよ！');
-
+                $message = $this->__getGpsNear($bot, $event, $event->getLatitude(), $event->getLongitude());
+                return $bot->replyText($event->getReplyToken(), $message);
             }
 
             // メッセージタイプごとに処理を分ける　スタンプ
@@ -355,6 +355,24 @@ class LineWebhookController extends Controller
 
         return;
     }
+
+    /**
+     * 近くの車を返す（現状走ってないのでダミー）
+     * @param $bot
+     * @param $event
+     * @param $lat
+     * @param $lon
+     * @return string
+     */
+    private function __getGpsNear($bot, $event, $lat = "", $lon = "")
+    {
+        $message = "";
+        $message .= "15分程度で到着します。\n";
+        $message .= "車種は黒のマイバッハです。\n";
+        $message .= "到着しましたらお知らせします。\n";
+        return $message;
+    }
+
 
     /**
      * @param $flg
