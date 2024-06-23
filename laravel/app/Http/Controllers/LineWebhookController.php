@@ -337,7 +337,7 @@ class LineWebhookController extends Controller
                     DB::rollBack();
                     Log::debug('画像登録失敗：' . print_r($e, true));
                 }
-                $responseMessage = '写真のアップロードが完了しました！解析結果をお待ち下さい。';
+                $responseMessage = '写真のアップロードが完了しました！';
                 return $bot->replyText($event->getReplyToken(), $responseMessage);
             }
 
@@ -350,7 +350,6 @@ class LineWebhookController extends Controller
                 $button = new ConfirmTemplateBuilder($message.'配車依頼しますか？', $actions);
                 $button_message = new TemplateMessageBuilder('配車依頼', $button);
                 return $bot->replyMessage($event->getReplyToken(), $button_message);
-//                return $bot->replyText($event->getReplyToken(), $message);
             }
 
             // メッセージタイプごとに処理を分ける　スタンプ
@@ -667,7 +666,9 @@ class LineWebhookController extends Controller
             $text .= "2024/06/13 通知バッチがバグってたのを直しました。ごめんなさい。" . "\n";
             $text .= "2024/06/13 設定確認機能をわかりやすく改修しました。";
         }
-
+        if (strtoupper(trim($command)) == strtoupper("Reservation")) {
+            $text .= "現在実装中" . "";
+        }
 
         if (strtoupper(trim($command)) == strtoupper("Setting")) {
 
