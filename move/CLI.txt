@@ -1,0 +1,20 @@
+
+root@styleubuntu:/var/www/daocar/move# aptos init --profile daocar
+Configuring for profile daocar
+Choose network from [devnet, testnet, mainnet, local, custom | defaults to devnet]
+
+No network given, using devnet...
+Enter your private key as a hex literal (0x...) [Current: None | No input: Generate new key (or keep one if present)]
+
+No key given, generating key...
+Account 0x7518d9537cfdbe6571990fccf85c07615ac730059daa875f655d2a28bc7dff01 doesn't exist, creating it and funding it with 100000000 Octas
+Account 0x7518d9537cfdbe6571990fccf85c07615ac730059daa875f655d2a28bc7dff01 funded successfully
+
+---
+Aptos CLI is now set up for account 0x7518d9537cfdbe6571990fccf85c07615ac730059daa875f655d2a28bc7dff01 as profile daocar!  Run `aptos --help` for more information about commands
+{
+  "Result": "Success"
+}
+root@styleubuntu:/var/www/daocar/move#
+
+
