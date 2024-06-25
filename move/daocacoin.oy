@@ -1,0 +1,49 @@
+from aptos_sdk.account import Account
+from aptos_sdk.client import RestClient
+from aptos_sdk.transactions import TransactionArgument, TransactionPayload
+
+# Aptosクライアントの初期化
+client = RestClient("https://fullnode.devnet.aptoslabs.com/v1")
+
+# アカウントの設定
+private_key = "YOUR_PRIVATE_KEY_HERE"
+account = Account.load_key(private_key)
+
+# コインの初期化
+def initialize_coin():
+    payload = TransactionPayload(
+        function="0x1::managed_coin::initialize",
+        type_arguments=[],
+        arguments=[
+            TransactionArgument("DaoCaCoin", Serializer.str),
+            TransactionArgument("DCC", Serializer.str),
+            TransactionArgument(6, Serializer.u8),
+            TransactionArgument(True, Serializer.bool),
+        ]
+    )
+
+    tx = client.create_bcs_transaction(account, payload)
+    client.submit_bcs_transaction(tx)
+    client.wait_for_transaction(tx.hash)
+    print("Coin initialized")
+
+# コインのミント
+def mint_coin(amount):
+    payload = TransactionPayload(
+        function=f"{account.address()}::MyCoin::mint",
+        type_arguments=[],
+        arguments=[
+            TransactionArgument(amount, Serializer.u64),
+        ]
+    )
+
+    tx = client.create_bcs_transaction(account, payload)
+    client.submit_bcs_transaction(tx)
+    client.wait_for_transaction(tx.hash)
+    print(f"Minted {amount} coins")
+
+# メイン実行
+if __name__ == "__main__":
+    initialize_coin()
+    mint_coin(1000000)  # 1,000,000 coins (考慮すべき小数点: 6)
+
