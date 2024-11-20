@@ -25,6 +25,9 @@ Route::get('/privacy', function () {
     return view('privacy');
 });
 
+Route::redirect('/member', 'https://forms.gle/opeHrmSFFpFJeEXc7');
+Route::redirect('/recruit', 'https://forms.gle/CHYzSkEUiEzTucC1A');
+
 //Route::get('user_location', [UserLocationController::class, 'index'])->name('user_location.index');
 
 Auth::routes();
